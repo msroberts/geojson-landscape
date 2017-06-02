@@ -4,6 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "tsc": "tsc",
+    "rollup": "rollup -c",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -16,5 +18,10 @@
   "bugs": {
     "url": "https://github.com/msroberts/geojson-landscape/issues"
   },
-  "homepage": "https://github.com/msroberts/geojson-landscape#readme"
+  "homepage": "https://github.com/msroberts/geojson-landscape#readme",
+  "devDependencies": {
+    "rollup": "^0.41.6",
+    "rollup-plugin-typescript": "^0.8.1",
+    "typescript": "^2.3.4"
+  }
 }
