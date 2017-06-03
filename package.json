@@ -2,7 +2,8 @@
   "name": "geojson-landscape",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/bundle.js",
+  "module": "dist/index.js",
   "scripts": {
     "tsc": "tsc",
     "rollup": "rollup -c",
