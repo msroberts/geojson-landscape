@@ -1,7 +1,9 @@
-import * as L from 'leaflet'
+import {Editor} from './editor'
+
+export * from './editor'
 
 export function createMap(container: HTMLElement) {
-  const map = L.map(container)
+  const map = new Editor(container)
 
   return map
 }
