@@ -22,11 +22,13 @@
   "homepage": "https://github.com/msroberts/geojson-landscape#readme",
   "devDependencies": {
     "@types/leaflet": "^1.0.62",
+    "@types/leaflet-draw": "^0.4.5",
     "rollup": "^0.41.6",
     "rollup-plugin-typescript": "^0.8.1",
     "typescript": "^2.3.4"
   },
   "dependencies": {
-    "leaflet": "^1.0.3"
+    "leaflet": "^1.0.3",
+    "leaflet-draw": "^0.4.9"
   }
 }
