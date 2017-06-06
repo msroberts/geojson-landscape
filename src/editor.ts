@@ -52,4 +52,8 @@ export class Editor {
       this.drawnItems.addLayer(event.layer)
     })
   }
+
+  getJSON() {
+    return this.drawnItems.toGeoJSON()
+  }
 }
