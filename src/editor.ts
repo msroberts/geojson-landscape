@@ -56,4 +56,12 @@ export class Editor {
   getJSON() {
     return this.drawnItems.toGeoJSON()
   }
+
+  setJSON(json: GeoJSON.GeoJsonObject) {
+    L.geoJSON(json, {
+      onEachFeature: (feature, layer) => {
+        this.drawnItems.addLayer(layer)
+      }
+    })
+  }
 }
