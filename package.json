@@ -7,6 +7,7 @@
   "scripts": {
     "tsc": "tsc",
     "rollup": "rollup -c",
+    "start": "http-server",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -23,6 +24,7 @@
   "devDependencies": {
     "@types/leaflet": "^1.5.19",
     "@types/leaflet-draw": "^0.4.14",
+    "http-server": "^0.12.3",
     "rollup": "^2.32.0",
     "rollup-plugin-typescript": "^1.0.1",
     "tslib": "^2.0.3",
