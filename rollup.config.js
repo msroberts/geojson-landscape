@@ -11,10 +11,15 @@ const plugins = [
 ]
 
 export default {
-  entry: 'src/index.ts',
-  dest: 'dist/bundle.js',
+  input: 'src/index.ts',
+  output:{
+    file: 'dist/bundle.js',
+    format: 'umd',
+    name: 'geojsonLandscape',
+    globals: {
+      'leaflet': 'L',
+    },
+  },
   external: Object.keys(dependencies),
-  format: 'umd',
-  moduleName: 'geojsonLandscape',
   plugins: plugins,
 }
