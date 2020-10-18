@@ -3,10 +3,10 @@ import * as L from 'leaflet'
 export function getArea(layer: L.Path|L.Polyline|L.Circle): number {
   if (layer instanceof L.Polyline) {
     let latLngs = layer.getLatLngs()
-    if (Array.isArray(latLngs[0])) {
+    while (Array.isArray(latLngs[0])) {
       latLngs = latLngs[0]
     }
-    return L.GeometryUtil.geodesicArea(latLngs)
+    return L.GeometryUtil.geodesicArea(latLngs as L.LatLng[])
   } else if (layer instanceof L.Circle) {
     return layer.getRadius() ** 2 * Math.PI
   }
