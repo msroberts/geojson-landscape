@@ -1,10 +1,11 @@
 import * as L from 'leaflet'
 
 export class Editor {
+  public mapContainer: HTMLDivElement
+  public textBox: HTMLTextAreaElement
   public map: L.Map
   baseLayers: { [key: string]: L.TileLayer }
   drawnItems: L.FeatureGroup
-
   drawControl: L.Control.Draw
 
   constructor(public container: HTMLElement, public accessToken: string, options: any = {}) {
@@ -14,14 +15,16 @@ export class Editor {
       options.layers = [this.baseLayers[Object.keys(this.baseLayers)[0]]]
     }
 
-    this.map = L.map(container, options)
+    this.createContainers()
+
+    this.map = L.map(this.mapContainer, options)
 
     L.control.layers(this.baseLayers).addTo(this.map)
 
     this.setDrawLayer()
   }
 
-  setTileLayers(): void {
+  private setTileLayers(): void {
     this.baseLayers = {
       'Streets': this.mapboxLayer('mapbox/streets-v11'),
       'Satellite': this.mapboxLayer('mapbox/satellite-streets-v11'),
@@ -29,7 +32,7 @@ export class Editor {
     }
   }
 
-  mapboxLayer(id: string): L.TileLayer {
+  private mapboxLayer(id: string): L.TileLayer {
     return L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
       attribution: `Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors,
         <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>,
@@ -39,7 +42,7 @@ export class Editor {
     })
   }
 
-  setDrawLayer(): void {
+  private setDrawLayer(): void {
     this.drawnItems = new L.FeatureGroup([])
       .addTo(this.map)
 
@@ -54,13 +57,21 @@ export class Editor {
     })
   }
 
-  getJSON() {
+  private createContainers() {
+    this.mapContainer = document.createElement('div')
+    this.container.appendChild(this.mapContainer)
+
+    this.textBox = document.createElement('textarea')
+    this.container.appendChild(this.textBox)
+  }
+
+  public getJSON() {
     return this.drawnItems.toGeoJSON()
   }
 
-  setJSON(json: GeoJSON.GeoJsonObject) {
+  public setJSON(json: GeoJSON.GeoJsonObject) {
     L.geoJSON(json, {
-      onEachFeature: (feature, layer) => {
+      onEachFeature: (_, layer) => {
         this.drawnItems.addLayer(layer)
       }
     })
