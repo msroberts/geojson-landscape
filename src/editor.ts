@@ -54,7 +54,10 @@ export class Editor {
 
     this.map.on(L.Draw.Event.CREATED, event => {
       this.drawnItems.addLayer(event.layer)
+      this.updateTextBox()
     })
+    this.map.on(L.Draw.Event.EDITED, () => this.updateTextBox())
+    this.map.on(L.Draw.Event.DELETED, () => this.updateTextBox())
   }
 
   private createContainers() {
@@ -62,6 +65,9 @@ export class Editor {
     this.container.appendChild(this.mapContainer)
 
     this.textBox = document.createElement('textarea')
+    this.textBox.addEventListener('change', (ev) => {
+      this.updateDrawnLayer(JSON.parse((ev.target as HTMLTextAreaElement).value))
+    })
     this.container.appendChild(this.textBox)
   }
 
@@ -70,10 +76,20 @@ export class Editor {
   }
 
   public setJSON(json: GeoJSON.GeoJsonObject) {
+    this.updateDrawnLayer(json)
+    this.updateTextBox()
+  }
+
+  private updateDrawnLayer(json: GeoJSON.GeoJsonObject) {
+    this.drawnItems.clearLayers()
     L.geoJSON(json, {
       onEachFeature: (_, layer) => {
         this.drawnItems.addLayer(layer)
       }
     })
+  }
+
+  private updateTextBox() {
+    this.textBox.value = JSON.stringify(this.getJSON(), null, 2)
   }
 }
