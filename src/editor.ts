@@ -4,9 +4,9 @@ export class Editor {
   public mapContainer: HTMLDivElement
   public textBox: HTMLTextAreaElement
   public map: L.Map
-  baseLayers: { [key: string]: L.TileLayer }
-  drawnItems: L.FeatureGroup
-  drawControl: L.Control.Draw
+  private baseLayers: { [key: string]: L.TileLayer }
+  private drawnItems: L.FeatureGroup
+  private drawControl: L.Control.Draw
 
   constructor(public container: HTMLElement, public accessToken: string, options: any = {}) {
     this.setTileLayers()
