@@ -1,6 +1,8 @@
 import * as L from 'leaflet'
 import {set} from 'idb-keyval'
 import { SAVED_JSON } from './settings'
+import { IProperties } from './types'
+import { createPopupElement, getDefaultProperties } from './util'
 
 export class Editor {
   public mapContainer: HTMLDivElement
@@ -55,8 +57,15 @@ export class Editor {
     }).addTo(this.map)
 
     this.map.on(L.Draw.Event.CREATED, event => {
-      this.drawnItems.addLayer(event.layer)
+      // https://gis.stackexchange.com/a/211522
+      const layer = event.layer,
+          feature = layer.feature = layer.feature || {}; // Intialize layer.feature
+  
+      feature.type = feature.type || "Feature"; // Intialize feature.type
+      var props: IProperties = feature.properties = feature.properties || getDefaultProperties(); // Intialize feature.properties
+      const featureGroup = this.drawnItems.addLayer(layer)
       this.updateTextBox()
+      this.saveJson()
     })
     this.map.on(L.Draw.Event.EDITED, () => this.updateTextBox())
     this.map.on(L.Draw.Event.DELETED, () => this.updateTextBox())
@@ -69,6 +78,7 @@ export class Editor {
     this.textBox = document.createElement('textarea')
     this.textBox.addEventListener('change', (ev) => {
       this.updateDrawnLayer(JSON.parse((ev.target as HTMLTextAreaElement).value))
+      this.saveJson()
     })
     this.container.appendChild(this.textBox)
   }
@@ -85,15 +95,22 @@ export class Editor {
   private updateDrawnLayer(json: GeoJSON.GeoJsonObject) {
     this.drawnItems.clearLayers()
     L.geoJSON(json, {
-      onEachFeature: (_, layer) => {
+      onEachFeature: (feature, layer) => {
+        const properties: IProperties = {
+          ...feature.properties
+        }
+        layer.bindPopup(createPopupElement(properties))
         this.drawnItems.addLayer(layer)
       }
     })
   }
 
   private updateTextBox() {
-    const value = JSON.stringify(this.getJSON(), null, 2)
-    this.textBox.value = value
-    set(SAVED_JSON, value).then(() => console.log('Updated saved JSON'))
+    this.textBox.value = JSON.stringify(this.getJSON(), null, 2)
+    this.saveJson()
+  }
+
+  private saveJson() {
+    set(SAVED_JSON, JSON.stringify(this.getJSON())).then(() => console.log('Updated saved JSON'))
   }
 }

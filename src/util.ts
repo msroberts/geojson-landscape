@@ -1,4 +1,5 @@
 import * as L from 'leaflet'
+import { IProperties } from './types'
 
 export function getArea(layer: L.Path|L.Polyline|L.Circle): number {
   if (layer instanceof L.Polyline) {
@@ -19,4 +20,36 @@ export function getAreaString(layer: L.Path|L.Polyline|L.Circle, isMetric: boole
 
 export function getDiameterString(layer: L.Circle, isMetric: boolean = false) {
   return L.GeometryUtil.readableDistance(layer.getRadius(), isMetric)
+}
+
+export function getDefaultProperties(): IProperties {
+  return {    
+    name: '',
+    description: '',
+  }
+}
+
+export function createPopupElement(properties: IProperties) {
+  let {
+    name,
+    description,
+  } = properties
+  const el = document.createElement('span')
+
+  if (!name) {
+    name = 'Set in Text Box'
+  }
+  const heading = document.createElement('strong')
+  heading.textContent = name
+  el.appendChild(heading)
+
+  if (description) {
+    el.appendChild(document.createElement('br'))
+
+    const content = document.createElement('span')
+    content.textContent = description
+    el.appendChild(content)
+  }
+
+  return el
 }
