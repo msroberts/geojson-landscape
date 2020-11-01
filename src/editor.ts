@@ -30,6 +30,12 @@ export class Editor {
 
   private setTileLayers(): void {
     this.baseLayers = {
+      'Streets:ESRI': L.esri.basemapLayer('Streets'),
+      'Imagery': L.esri.basemapLayer('Imagery'),
+      'Topo': L.esri.tiledMapLayer({
+        url: 'https://services.arcgisonline.com/ArcGIS/rest/services/USA_Topo_Maps/MapServer',
+        maxZoom: 15
+      }),
       'Streets': this.mapboxLayer('mapbox/streets-v11'),
       'Satellite': this.mapboxLayer('mapbox/satellite-streets-v11'),
       'Terrain': this.mapboxLayer('mapbox/outdoors-v11'),
