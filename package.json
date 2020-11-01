@@ -7,6 +7,7 @@
   "scripts": {
     "tsc": "tsc",
     "rollup": "rollup -c",
+    "rollup:watch": "rollup -c -w",
     "start": "http-server",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
