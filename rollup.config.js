@@ -1,13 +1,15 @@
+import { nodeResolve } from '@rollup/plugin-node-resolve';
 import typescript from 'rollup-plugin-typescript'
 import compiler from 'typescript'
 
 const {dependencies} = require('./package.json')
 
 const plugins = [
+  nodeResolve(),
   typescript({
     // Use latest typescript
     typescript: compiler,
-  })
+  }),
 ]
 
 export default {

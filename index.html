@@ -31,8 +31,12 @@
 
   <script src="/dist/bundle.js"></script>
   <script>
-    var editor = geojsonLandscape.createMap(document.querySelector('#editor'), location.hash.substring(1))
-    editor.map.setView([42.606, -72.738], 13)
+    (async ({geojsonLandscape}) => {
+      var mapboxKey = location.hash.substring(1).trim()
+      mapboxKey = await geojsonLandscape.getOrUpdateSetting(geojsonLandscape.MAPBOX_KEY, mapboxKey)
+      var editor = geojsonLandscape.createMap(document.querySelector('#editor'), mapboxKey)
+      editor.map.setView([42.606, -72.738], 13)
+    })(window)
   </script>
 </body>
 </html>
