@@ -53,7 +53,7 @@ export class Editor {
     }).addTo(this.map)
 
     this.map.on(L.Draw.Event.CREATED, event => {
-      this.drawnItems.addLayer(event.propagatedFrom)
+      this.drawnItems.addLayer(event.layer)
     })
   }
 
