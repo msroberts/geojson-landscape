@@ -111,6 +111,6 @@ export class Editor {
   }
 
   private saveJson() {
-    set(SAVED_JSON, JSON.stringify(this.getJSON())).then(() => console.log(`Updated saved JSON at ${new Date().toISOString()}`))
+    set(SAVED_JSON, this.getJSON()).then(() => console.log(`Updated saved JSON at ${new Date().toISOString()}`))
   }
 }

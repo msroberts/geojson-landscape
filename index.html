@@ -41,7 +41,7 @@
 
       const editor = geojsonLandscape.createMap(document.querySelector('#editor'), mapboxKey)
       editor.map.setView([42.606, -72.738], 13)
-      editor.setJSON(JSON.parse(savedJson))
+      editor.setJSON(savedJson)
     })(window)
   </script>
 </body>
