@@ -1,4 +1,6 @@
 import * as L from 'leaflet'
+import {set} from 'idb-keyval'
+import { SAVED_JSON } from './settings'
 
 export class Editor {
   public mapContainer: HTMLDivElement
@@ -90,6 +92,8 @@ export class Editor {
   }
 
   private updateTextBox() {
-    this.textBox.value = JSON.stringify(this.getJSON(), null, 2)
+    const value = JSON.stringify(this.getJSON(), null, 2)
+    this.textBox.value = value
+    set(SAVED_JSON, value).then(() => console.log('Updated saved JSON'))
   }
 }

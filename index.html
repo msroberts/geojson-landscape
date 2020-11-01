@@ -34,8 +34,14 @@
     (async ({geojsonLandscape}) => {
       var mapboxKey = location.hash.substring(1).trim()
       mapboxKey = await geojsonLandscape.getOrUpdateSetting(geojsonLandscape.MAPBOX_KEY, mapboxKey)
-      var editor = geojsonLandscape.createMap(document.querySelector('#editor'), mapboxKey)
+      savedJson = (await geojsonLandscape.getOrUpdateSetting(geojsonLandscape.SAVED_JSON)) || JSON.stringify({
+        "type": "FeatureCollection",
+        "features": []
+      })
+
+      const editor = geojsonLandscape.createMap(document.querySelector('#editor'), mapboxKey)
       editor.map.setView([42.606, -72.738], 13)
+      editor.setJSON(JSON.parse(savedJson))
     })(window)
   </script>
 </body>
